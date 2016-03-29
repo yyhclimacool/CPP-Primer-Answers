@@ -10,7 +10,6 @@ public:
 	bool operator()(int rhs){
 		return origin == rhs;
 	}
-	int get()const {return origin;}
 private:
 	int origin;
 };
@@ -24,7 +23,7 @@ int main(){
 		cout << elem << " ";
 	cout << endl;
 	EqualOrNot eq(10);
-	replace_if(ivec.begin(), ivec.end(), eq, eq.get());
+	replace_if(ivec.begin(), ivec.end(), eq, 99);
 	cout << "after: " << endl;
 	for(const auto &elem:ivec)
 		cout << elem << " ";
