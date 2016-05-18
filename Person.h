@@ -3,7 +3,13 @@
 
 #include <string>
 
+using namespace std;
+
 class Person{
+public:
+    string getName() const { return name; }
+    string getAddr() const { return addr; }
+private:
     string name;
     string addr;
 };
