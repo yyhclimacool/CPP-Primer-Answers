@@ -3,8 +3,12 @@
 
 #include <iostream>
 #include <string>
+#include "Window_mgr.h"
+
+void Window_mgr::clear(ScreenIndex);
 
 class Screen{
+    friend void Window_mgr::clear(ScreenIndex);
 public:
     typedef std::string::size_type pos;
     
