@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <iostream>
-
 #include "Screen.h"
 
 class Window_mgr{
