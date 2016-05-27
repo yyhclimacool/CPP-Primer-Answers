@@ -8,7 +8,7 @@ using namespace std;
 int main(){
 	list<string> slst;
 	string sval;
-	cout << "Enter some value into vector: " << endl;
+	cout << "Enter some value into list: " << endl;
 	while(cin >> sval)
 		slst.push_back(sval);
 	cout << "\nOK, now enter the value you want to lookup: " << endl;
