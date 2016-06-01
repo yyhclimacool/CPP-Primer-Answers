@@ -56,5 +56,4 @@ const string &StrBlob::back() const {
 }
 
 int main(){
-
 }
