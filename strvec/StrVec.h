@@ -5,14 +5,18 @@
 #include <string>
 #include <memory>
 #include <utility>
+#include <algorithm>
 
 using std::allocator;
 using std::string;
 using std::pair;
+using std::initializer_list;
+using std::for_each;
 
 class StrVec{
 public:
     StrVec():elements(nullptr), first_free(nullptr), cap(nullptr){}
+    StrVec(initializer_list<string> &il);
     StrVec(const StrVec &);
     StrVec &operator=(const StrVec &);
     ~StrVec();
