@@ -1,9 +1,10 @@
-#include "StrVec.h"
+#include "Sales_data.h"
 #include <iostream>
 #include <string>
 
 using namespace std;
 
 int main(){
-	StrVec sv;
+	Sales_data item;
+	cout << item << endl;
 }

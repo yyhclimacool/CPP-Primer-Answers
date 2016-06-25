@@ -14,6 +14,8 @@ using std::initializer_list;
 using std::for_each;
 
 class StrVec{
+	friend bool operator==(const StrVec &, const StrVec &);
+	friend bool operator!=(const StrVec &, const StrVec &);
 public:
     StrVec():elements(nullptr), first_free(nullptr), cap(nullptr){}
     StrVec(initializer_list<string> &il);
