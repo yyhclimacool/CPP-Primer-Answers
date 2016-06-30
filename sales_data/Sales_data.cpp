@@ -38,3 +38,11 @@ bool operator==(const Sales_data &lhs, const Sales_data &rhs){
 bool operator!=(const Sales_data &lhs, const Sales_data &rhs){
 	return !(lhs == rhs);
 }
+
+Sales_data::operator string() const{
+     return bookNo;
+}
+
+Sales_data::operator double() const{
+    return revenue;
+}

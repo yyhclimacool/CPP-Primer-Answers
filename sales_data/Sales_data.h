@@ -16,6 +16,9 @@ public:
 	Sales_data(const string &s, unsigned n, double p):bookNo(s), units_sold(n), revenue(units_sold * p){}
 	Sales_data(const string &s):bookNo(s){}
 	Sales_data(istream &is);
+
+    explicit operator string() const;
+    explicit operator double() const;
 	string isbn() const { return bookNo;}
 private:
 	string bookNo;
