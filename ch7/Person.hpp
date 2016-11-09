@@ -10,9 +10,19 @@ class Person{
 	public:
 		string getName() const { return name;}
 		string getAddress() const { return address;}
-	private:
+	// private:
 		string name;
 		string address;
+};
+
+istream &read(istream &is, Person &rhs){
+	is >> rhs.name >> rhs.address;
+	return is;
+}
+
+ostream &print(ostream &os, const Person &rhs){
+	os << rhs.name << rhs.address;
+	return os;
 }
 
 #endif
