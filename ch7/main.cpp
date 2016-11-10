@@ -6,4 +6,5 @@ using namespace std;
 int main(){
 	Sales_data item;
 	Person p;
+	return 0;
 }
