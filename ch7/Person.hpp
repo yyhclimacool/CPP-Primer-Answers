@@ -6,8 +6,16 @@
 
 using namespace std;
 
+class Person;
+
+istream &read(istream &, Person &);
+ostream &print(ostream &, const Person &);
+
 class Person{
 	public:
+		Person() = default;
+		Person(const string &n, const string &ad):name(n), address(ad) {}
+		Person(istream &is){ read(is, *this);}
 		string getName() const { return name;}
 		string getAddress() const { return address;}
 	// private:
