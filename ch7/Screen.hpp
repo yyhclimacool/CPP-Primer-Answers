@@ -4,10 +4,23 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
+class Screen;
+
+class Window_mgr {
+	public:
+		using ScreenIndex = vector<Screen>::size_type;
+		void clear(ScreenIndex);
+	private:
+		vector<Screen> screens;
+};
+
 class Screen{
+	
+	friend void Window_mgr::clear(ScreenIndex);
 	public:
 		using pos = string::size_type;
 			
@@ -50,4 +63,10 @@ const Screen &Screen::display(ostream &os) const {
 	do_display(os);
 	return *this;
 }
+
+void Window_mgr::clear(ScreenIndex ix){
+	Screen &s = screens[ix];
+	s.contents = string(s.height * s.width, ' ');
+}
+
 #endif // _SCREEN_HPP_
