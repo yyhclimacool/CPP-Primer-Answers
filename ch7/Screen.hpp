@@ -33,6 +33,8 @@ class Screen{
 		Screen &set(pos w, pos h, char ch);
 		Screen &display(ostream &os);
 		const Screen &display(ostream &os) const;
+		
+		pos size() const;
 	private:
 		void do_display(ostream &os) const { os << contents;}
 		pos cursor = 0;
@@ -64,6 +66,13 @@ const Screen &Screen::display(ostream &os) const {
 	return *this;
 }
 
+Screen::pos Screen::size() const {
+	return height * width;
+}
+
+/*******************************************************************
+ *              Definition of class Window_mgr
+ ******************************************************************/
 void Window_mgr::clear(ScreenIndex ix){
 	Screen &s = screens[ix];
 	s.contents = string(s.height * s.width, ' ');

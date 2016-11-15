@@ -17,10 +17,16 @@ class Sales_data{
 		friend istream &read(istream &, Sales_data &);
 		friend ostream &print(ostream &, const Sales_data &);
 	public:
-		Sales_data() = default;
-		Sales_data(const string &str):bookNo(str), units_sold(0), revenue(0.0){}
+		// Sales_data() = default;
+		// Sales_data(const string &str):bookNo(str), units_sold(0), revenue(0.0){}
 		Sales_data(const string &str, unsigned us, double price):bookNo(str), units_sold(us), revenue(us *price){}
-		Sales_data(istream &is){read(is, *this);}
+		// Sales_data(istream &is){read(is, *this);}
+		
+		/***********Delegating Constructor**************
+		***********************************************/
+		Sales_data():Sales_data("", 0, 0.0){ cout << "Default constructor with delegating" << endl;}
+		Sales_data(const string &str):Sales_data(str, 0, 0.0) { cout << "Constructor with one string parameter using delegating" << endl;}
+		Sales_data(istream &is):Sales_data(){ read(is, *this); cout << "Constructor with an istream parameter using delegating" << endl;}
 		/*
 		 * 默认情况下this指针的类型为：Sales_data * const
 		 * 这种情况下这个函数就不能被具有const属性的对象调用了
