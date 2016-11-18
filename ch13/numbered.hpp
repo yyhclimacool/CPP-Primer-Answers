@@ -5,7 +5,10 @@ class numbered{
 	public:
 		friend void f(numbered n);
 		
-		numbered(){ mysn = ++unique; }
+		numbered():mysn(++unique){ cout << "numbered() called! and the static member is : " << unique << endl; }
+		numbered(const numbered &rhs):mysn(++unique) { cout << "numbered(const numbered &) called! and the static member is : " << unique << endl; }
+			
+		~numbered() { cout << "numbered() called! and the static member is : " << unique << endl; }
 	private:
 		int mysn;
 		static int unique;

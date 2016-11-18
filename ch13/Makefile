@@ -1,6 +1,6 @@
 all: main
 
-main: main.cpp HasPtr.hpp
+main: main.cpp HasPtr.hpp numbered.hpp
 	g++ -g -o main main.cpp
 	
 clean:
