@@ -14,6 +14,11 @@ class HasPtr{
 			ps = new string(*(rhs.ps));
 			i = rhs.i;
 		}
+		~HasPtr(){
+			if(ps)
+				delete ps;
+			cout << "Destructor called!" << endl;
+		}
 	private:
 		string *ps;
 		int i;
