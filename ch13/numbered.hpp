@@ -3,7 +3,7 @@
 
 class numbered{
 	public:
-		friend void f(numbered n);
+		friend void f(const numbered &n);
 		
 		numbered():mysn(++unique){ cout << "numbered() called! and the static member is : " << unique << endl; }
 		numbered(const numbered &rhs):mysn(++unique) { cout << "numbered(const numbered &) called! and the static member is : " << unique << endl; }
@@ -16,6 +16,6 @@ class numbered{
 
 int numbered::unique = 0;
 	
-void f(numbered n){ cout << n.mysn << endl; }
+void f(const numbered &n){ cout << n.mysn << endl; }
 
 #endif
