@@ -11,12 +11,14 @@ class HasPtr{
 		HasPtr(const HasPtr &rhs):ps(new string(*(rhs.ps))), i(rhs.i){}
 		
 		HasPtr &operator=(const HasPtr &rhs){
-			ps = new string(*(rhs.ps));
+			string *newp = new string(*rhs.ps);
+			delete ps;
+			ps = newp;
 			i = rhs.i;
+			return *this;
 		}
 		~HasPtr(){
-			if(ps)
-				delete ps;
+			delete ps;
 			cout << "Destructor called!" << endl;
 		}
 	private:
