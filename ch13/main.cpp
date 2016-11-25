@@ -11,6 +11,9 @@ using namespace std;
 
 int main(){
 	//StrVec sv({"we", "are", "fine"});
-	String st("how are u");
+	vector<String> sv;
+	sv.push_back("we");
+	sv.push_back("are");
+	sv.push_back("fine");
 	return 0;
 }
