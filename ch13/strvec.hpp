@@ -13,7 +13,9 @@ class StrVec{
 		StrVec():elements(nullptr), first_free(nullptr), cap(nullptr){}
 		StrVec(initializer_list<string> il);
 		StrVec(const StrVec &);
+		StrVec(StrVec &&) noexcept;
 		StrVec &operator=(const StrVec &);
+		StrVec &operator=(StrVec &&) noexcept;
 		~StrVec();
 		void push_back(const string &);
 		size_t size() const { return first_free - elements;}
@@ -40,6 +42,22 @@ class StrVec{
 };
 
 allocator<string> StrVec::alloc;
+	
+StrVec::StrVec(StrVec &&rhs) noexcept :elements(rhs.elements), first_free(rhs.first_free), cap(rhs.cap){
+	elements = first_free = cap = nullptr;
+}
+
+StrVec &StrVec::operator=(StrVec &&rhs) noexcept {
+	if(this != &rhs){
+		free();
+		elements = rhs.elements;
+		first_free = rhs.first_free;
+		cap = rhs.cap;
+		
+		rhs.elements = rhs.first_free = rhs.cap = nullptr;
+	}
+	return *this;
+}
 
 StrVec::StrVec(initializer_list<string> il){
 	auto newdata = alloc_n_copy(il.begin(), il.end());

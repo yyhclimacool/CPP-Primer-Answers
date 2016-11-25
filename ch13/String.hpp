@@ -10,7 +10,9 @@ class String{
 		String():elements(nullptr), first_free(nullptr), cap(nullptr){}
 		String(const char *ch);
 		String(const String &rhs);
+		String(String &&) noexcept;
 		String &operator=(const String &rhs);
+		String &operator=(String &&) noexcept;
 		~String() { free(); }
 		
 		size_t size() const { return first_free - elements;}
@@ -60,6 +62,14 @@ String::String(const String &rhs){
 	cout << "Copy constructor called!" << endl;
 }
 
+String::String(String &&rhs) noexcept {
+		elements = rhs.elements;
+		first_free = rhs.first_free;
+		cap = rhs.cap;
+		
+		rhs.elements = rhs.first_free = rhs.cap;
+}
+
 String &String::operator=(const String &rhs){
 	// 先完成自赋值的情况
 	auto sz = rhs.size();
@@ -70,6 +80,17 @@ String &String::operator=(const String &rhs){
 	elements = newdata;
 	first_free = cap = elements + sz;
 	cout << "Copy-Assignment operator called!" << endl;
+	return *this;
+}
+
+String &String::operator=(String &&rhs) noexcept {
+	if(this != &rhs){
+		elements = rhs.elements;
+		first_free = rhs.first_free;
+		cap = rhs.cap;
+		
+		rhs.elements = rhs.first_free = rhs.cap;
+	}
 	return *this;
 }
 
