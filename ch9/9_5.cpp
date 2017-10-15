@@ -11,7 +11,6 @@ it myFind(it beg, it end, int ival){
 	while(beg != end){
 		if(ival == *beg){
 			return beg;
-			break;
 		}
 		++beg;
 	}
