@@ -1,8 +1,8 @@
 #include <iostream>
 
-/*
- * wrong comment area /* NOT OK */
- */
+///*
+// * wrong comment area /* NOT OK */
+// */
 
 int main() {
     std::cout << "Enter two numbers:";
