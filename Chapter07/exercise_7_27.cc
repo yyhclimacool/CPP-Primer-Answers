@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -17,7 +18,21 @@ public:
     inline char get(pos ht, pos wd) const;
     // 能在之后被设为内联
     Screen &move(pos r, pos c);
+
+    Screen &set(char ch) {
+        contents[cursor] = ch;
+        return *this;
+    }
+    Screen &set(pos r, pos c, char ch) {
+        contents[r * width + c] = ch;
+        return *this;
+    }
+
+    Screen &display(ostream &);
+    const Screen &display(ostream &) const;
+
 private:
+    void do_display(ostream &os) const { os << contents; }
     pos cursor = 0;
     pos height = 0, width = 0;
     string contents;
@@ -33,4 +48,22 @@ inline char Screen::get(pos ht, pos wd) const {
 inline Screen &Screen::move(pos r, pos c) {
     cursor = r * width + c;
     return *this;
+}
+
+Screen &Screen::display(ostream &os) {
+    do_display(os);
+    return *this;
+}
+
+const Screen &Screen::display(ostream &os) const {
+    do_display(os);
+    return *this;
+}
+
+int main() {
+    Screen myScreen(5, 5, 'X');
+    myScreen.move(4, 0).set('#').display(cout);
+    cout << '\n';
+    myScreen.display(cout);
+    cout << std::endl;
 }

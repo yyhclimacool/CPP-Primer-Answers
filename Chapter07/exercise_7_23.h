@@ -1,6 +1,6 @@
 #include <string>
 
-using nsmespace std;
+using namespace std;
 
 class Screen {
 public:
