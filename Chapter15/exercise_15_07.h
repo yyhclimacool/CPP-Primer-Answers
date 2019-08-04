@@ -13,6 +13,10 @@ public:
         else 
             return price * n;
     }
+    virtual void debug() const override {
+        Bulk_quote::debug();
+        cout << "Disc_quote has no members" << endl;
+    }
     ~Disc_quote() = default;
 };
 

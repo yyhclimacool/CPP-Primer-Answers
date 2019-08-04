@@ -14,6 +14,10 @@ public:
             return cnt * price;
         }
     }
+    virtual void debug() const override {
+        Quote::debug();
+        cout << "Bulk_quote: min_qty = " << min_qty << ", discount = " << discount << endl;
+    }
 protected:
     size_t min_qty = 0;
     double discount = 0.0;

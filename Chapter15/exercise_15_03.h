@@ -14,6 +14,9 @@ public:
     string isbn() const { return bookNo; }
     // 派生类负责改写并使用不同的算法
     virtual double net_price(size_t n) const { return n * price; }
+    virtual void debug() const {
+        cout << "Quote : bookNo = " << bookNo << ", price = " << price << endl;
+    }
 private:
     string bookNo;
 protected:
