@@ -18,6 +18,9 @@ public:
         Quote::debug();
         cout << "Bulk_quote: min_qty = " << min_qty << ", discount = " << discount << endl;
     }
+
+    virtual Bulk_quote *clone() const & override { return new Bulk_quote(*this); }
+    virtual Bulk_quote *clone() && override { return new Bulk_quote(std::move(*this)); }
 protected:
     size_t min_qty = 0;
     double discount = 0.0;

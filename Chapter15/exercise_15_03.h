@@ -17,15 +17,18 @@ public:
     virtual void debug() const {
         cout << "Quote : bookNo = " << bookNo << ", price = " << price << endl;
     }
+
+    virtual Quote *clone() const & { return new Quote(*this); }
+    virtual Quote *clone() && { return new Quote(std::move(*this)); }
 private:
     string bookNo;
 protected:
     double price = 0.0;
 };
 
-double print_total(const Quote &q, size_t n) {
+double print_total(std::ostream &os, const Quote &q, size_t n) {
     auto ret = q.net_price(n);
-    cout << q.isbn() << ", " << ret << endl;
+    os << q.isbn() << ", " << ret << endl;
     return ret;
 }
 
