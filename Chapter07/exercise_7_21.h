@@ -1,4 +1,7 @@
 #include <string>
+#include <iostream>
+
+using namespace std;
 
 class Sales_data {
     friend istream &read(istream &is, Sales_data &data);
