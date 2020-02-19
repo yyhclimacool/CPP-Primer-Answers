@@ -7,7 +7,7 @@ int main() {
     ip = &j;
     *ip = 100;
 
-    std::cout << *ip << std::endl;
+    std::cout << ip << ":" << *ip << std::endl;
 
     return 0;
 }
