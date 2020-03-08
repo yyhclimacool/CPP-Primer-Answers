@@ -5,6 +5,7 @@ then
     if [ -d ./build ]
     then
         rm -rf ./build
+        rm -rf ./output
     fi
     exit 0
 fi
@@ -15,8 +16,6 @@ then
     mkdir -p build
 fi
 
-cd build && \
-cmake -DCMAKE_INSTALL_PREFIX=./output .. && \
-make -j && \
-make install && \
-cd -
+cmake -DCMAKE_INSTALL_PREFIX=./output -H. -Bbuild && \
+cmake --build build/ -- -j && \
+cmake --build build/ --target install
