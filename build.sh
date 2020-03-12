@@ -17,5 +17,5 @@ then
 fi
 
 cmake -DCMAKE_INSTALL_PREFIX=./output -H. -Bbuild && \
-cmake --build build/ -- -j && \
-cmake --build build/ --target install
+cmake --build build -- -j && \
+cmake --build build --target install
