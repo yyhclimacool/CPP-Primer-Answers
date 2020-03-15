@@ -9,14 +9,14 @@ void elimDups(vector<string> &words) {
     cout << endl;
 
     sort(words.begin(), words.end());
+    for_each(words.cbegin(), words.cend(), [] (const string &s) { cout << s << '\t'; });
+    cout << endl;
 
     auto end_unique = unique(words.begin(), words.end());
-
     for_each(words.cbegin(), words.cend(), [] (const string &s) { cout << s << '\t'; });
     cout << endl;
 
     words.erase(end_unique, words.end());
-
     for_each(words.cbegin(), words.cend(), [] (const string &s) { cout << s << '\t'; });
     cout << endl;
 }
