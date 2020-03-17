@@ -10,8 +10,8 @@ class StrBlob{
 public:
     using size_type = vector<string>::size_type;
 
-    StrBlob():data_(make_shared<vector<string>>()) {}
-    StrBlob(const initializer_list<string> &il):data_(make_shared<vector<string>>(il)) {}
+    StrBlob() : data_(make_shared<vector<string>>()) {}
+    StrBlob(const initializer_list<string> &il) : data_(make_shared<vector<string>>(il)) {}
 
     size_type size() const { return data_->size(); }
     bool empty() const { return data_->empty(); }
@@ -19,9 +19,9 @@ public:
     void push_back(const string &);
     void pop_back();
     string &front();
-    string &front() const;
+    const string &front() const;
     string &back();
-    string &back() const;
+    const string &back() const;
 private:
     shared_ptr<vector<string>> data_;
     void check(size_type, const string &) const;
@@ -46,7 +46,7 @@ string &StrBlob::front() {
     return data_->front();
 }
 
-string &StrBlob::front() const {
+const string &StrBlob::front() const {
     check(0, "front on emtpy vector");
     return data_->front();
 }
@@ -56,13 +56,13 @@ string &StrBlob::back() {
     return data_->back();
 }
 
-string &StrBlob::back() const {
+const string &StrBlob::back() const {
     check(0, "back on empty vector");
     return data_->back();
 }
 
 int main() {
-    const StrBlob sv{"fine", "by", "me"};
+    StrBlob sv{"fine", "by", "me"};
     sv.back() = "ME";
     cout << sv.back() << endl;
 }
