@@ -12,5 +12,5 @@ int main() {
 
     list<int> ilst = {1,2,3,4,4,5};
     // 这里会报错，因为list的迭代器不支持<运算符
-    map2.insert(make_pair(ilst.begin(), 42));
+    //map2.insert(make_pair(ilst.begin(), 42));
 }
