@@ -11,3 +11,6 @@ install(TARGETS ${target_list}
     RUNTIME DESTINATION bin/chapter11
 )
 
+install(FILES map_file.txt input_file.txt
+    DESTINATION bin/chapter11
+)
