@@ -1,10 +1,11 @@
 #include <vector>
 #include <iostream>
+#include <iterator>
 
 using namespace std;
 
 vector<int> *get_vec() {
-    return new vector<int>;
+    return new vector<int>(4, 42);
 }
 
 vector<int> *func(vector<int> *vp) {
@@ -15,8 +16,7 @@ vector<int> *func(vector<int> *vp) {
 }
 
 void use_vec(vector<int> *vp) {
-    for (const auto &e : *vp)
-        cout << e << '\t';
+    std::copy(vp->cbegin(), vp->cend(), ostream_iterator<int>(cout, " "));
     cout << endl;
 }
 

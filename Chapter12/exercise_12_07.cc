@@ -1,24 +1,24 @@
 #include <vector>
 #include <iostream>
 #include <memory>
+#include <iterator>
 
 using namespace std;
 
 using spvec = shared_ptr<vector<int>>;
+
 spvec get_vec() {
-    return make_shared<vector<int>>();
+    return make_shared<vector<int>>(4, 42);
 }
 
 spvec func(spvec vp) {
-    int ival;
-    while (cin >> ival)
-        vp->push_back(ival);
+    istream_iterator<int> input(cin), eof;
+    std::copy(input, eof, back_inserter(*vp));
     return vp;
 }
 
 void use_vec(spvec vp) {
-    for (const auto &e : *vp)
-        cout << e << '\t';
+    std::copy(vp->cbegin(), vp->cend(), ostream_iterator<int>(cout, " "));
     cout << endl;
 }
 
