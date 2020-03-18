@@ -109,4 +109,6 @@ StrBlobPtr StrBlob::end() {
 }
 
 int main() {
+    StrBlob sb{"a", "an", "the", "and"};
+    cout << sb.begin().deref() << endl;
 }

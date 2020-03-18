@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-    int ix = 42, *pi = &ix, *pi2 = new int(33);
+    int ix = 1024, *pi = &ix, *pi2 = new int(2048);
     using intP = unique_ptr<int>;
 
     intP p2(pi2); // OK
