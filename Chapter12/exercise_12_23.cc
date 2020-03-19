@@ -20,5 +20,9 @@ int main() {
     cout << p << endl;
 
     delete [] p;
+
+    std::string stra = "you are the ", strb = "most beautiful girl!";
+    auto str_res = stra + strb;
+    cout << str_res << endl;
     return 0;
 }
