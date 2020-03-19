@@ -1,6 +1,5 @@
 #include <memory>
 #include <iostream>
-#include <fstream>
 #include <vector>
 #include <string>
 #include <exception>
@@ -73,15 +72,15 @@ public:
     StrBlobPtr():curr(0) {}
     StrBlobPtr(StrBlob &a, size_t n = 0) : wptr(a.data_), curr(n) {}
     
-    string &deref();
+    string &deref() const;
     StrBlobPtr &incr();
 private:
-    shared_ptr<vector<string>> check(size_t, const string &);
+    shared_ptr<vector<string>> check(size_t, const string &) const;
     weak_ptr<vector<string>> wptr;
     size_t curr;
 };
 
-shared_ptr<vector<string>> StrBlobPtr::check(size_t i, const string &msg) {
+shared_ptr<vector<string>> StrBlobPtr::check(size_t i, const string &msg) const {
     auto ret = wptr.lock();
     if (!ret) 
         throw runtime_error("Unbound StrBlobPtr");
@@ -90,7 +89,7 @@ shared_ptr<vector<string>> StrBlobPtr::check(size_t i, const string &msg) {
     return ret;
 }
 
-string &StrBlobPtr::deref() {
+string &StrBlobPtr::deref() const {
     auto ret = check(curr, "deref");
     return (*ret)[curr];
 }
@@ -109,23 +108,7 @@ StrBlobPtr StrBlob::end() {
     return StrBlobPtr(*this, data_->size());
 }
 
-int main(int argc, char **argv) {
-    if (argc != 2)
-        cerr << "Usage: " << argv[0] << " <input-file>" << endl;
-    ifstream ifs(argv[1]);
-    StrBlob eassy;
-    string word;
-    while (ifs >> word)
-        eassy.push_back(word);
-    auto it = eassy.begin();
-    try {
-        while (it.deref().size()) {
-            cout << it.deref() << '\t';
-            it.incr();
-        }
-    }
-    catch (...) {
-        cout << endl;
-    }
-    return 0;
+int main() {
+    StrBlob sb{"a", "an", "the", "and"};
+    cout << sb.begin().deref() << endl;
 }

@@ -1,6 +1,5 @@
 #include <memory>
 #include <iostream>
-#include <fstream>
 #include <vector>
 #include <string>
 #include <exception>
@@ -8,9 +7,11 @@
 using namespace std;
 
 class StrBlobPtr;
+class ConstStrBlobPtr;
 
 class StrBlob{
     friend class StrBlobPtr;
+    friend class ConstStrBlobPtr;
 public:
     using size_type = vector<string>::size_type;
 
@@ -28,7 +29,9 @@ public:
     string &back() const;
 
     StrBlobPtr begin();
+    ConstStrBlobPtr begin() const;
     StrBlobPtr end();
+    ConstStrBlobPtr end() const;
 private:
     shared_ptr<vector<string>> data_;
     void check(size_type, const string &) const;
@@ -106,26 +109,54 @@ StrBlobPtr StrBlob::begin() {
 }
 
 StrBlobPtr StrBlob::end() {
-    return StrBlobPtr(*this, data_->size());
+    return StrBlobPtr(*this, data_->size() - 1);
 }
 
-int main(int argc, char **argv) {
-    if (argc != 2)
-        cerr << "Usage: " << argv[0] << " <input-file>" << endl;
-    ifstream ifs(argv[1]);
-    StrBlob eassy;
-    string word;
-    while (ifs >> word)
-        eassy.push_back(word);
-    auto it = eassy.begin();
-    try {
-        while (it.deref().size()) {
-            cout << it.deref() << '\t';
-            it.incr();
-        }
-    }
-    catch (...) {
-        cout << endl;
-    }
-    return 0;
+class ConstStrBlobPtr {
+public:
+    ConstStrBlobPtr():curr(0) {}
+    ConstStrBlobPtr(const StrBlob &a, size_t n = 0) : wptr(a.data_), curr(n) {}
+    
+    const string &deref();
+    ConstStrBlobPtr &incr();
+private:
+    shared_ptr<vector<string>> check(size_t, const string &);
+    weak_ptr<vector<string>> wptr;
+    size_t curr;
+};
+
+shared_ptr<vector<string>> ConstStrBlobPtr::check(size_t i, const string &msg) {
+    auto ret = wptr.lock();
+    if (!ret) 
+        throw runtime_error("Unbound StrBlobPtr");
+    if (i >= ret->size())
+        throw out_of_range(msg);
+    return ret;
+}
+
+const string &ConstStrBlobPtr::deref() {
+    auto ret = check(curr, "deref");
+    return (*ret)[curr];
+}
+
+ConstStrBlobPtr &ConstStrBlobPtr::incr() {
+    auto ret = check(curr, "incr");
+    ++curr;
+    return *this;
+}
+
+ConstStrBlobPtr StrBlob::begin() const {
+    return ConstStrBlobPtr(*this);
+}
+
+ConstStrBlobPtr StrBlob::end() const {
+    return ConstStrBlobPtr(*this, data_->size() - 1);
+}
+
+int main() {
+    StrBlob sb{"a", "an", "the", "and"};
+    cout << sb.begin().deref() << endl;
+    cout << sb.end().deref() << endl;
+    const StrBlob csb(sb);
+    cout << csb.end().deref() << endl;
 }

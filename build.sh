@@ -16,6 +16,6 @@ then
     mkdir -p build
 fi
 
-cmake -DCMAKE_INSTALL_PREFIX=./output -H. -Bbuild && \
+cmake -DCMAKE_INSTALL_PREFIX=./output -DCMAKE_BUILD_TYPE=Debug -H. -Bbuild && \
 cmake --build build -- -j && \
 cmake --build build --target install
