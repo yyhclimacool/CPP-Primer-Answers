@@ -8,6 +8,7 @@ public:
     Numbered(const Numbered &n) {
         sn++;
         mysn = sn;
+        cout << __func__ << endl;
     }
     static size_t sn;
     size_t mysn;

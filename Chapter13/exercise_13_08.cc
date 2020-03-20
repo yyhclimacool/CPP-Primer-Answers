@@ -8,8 +8,9 @@ public:
     HasPtr(const string &s = string()) : ps(new string(s)), i(0) {}
     HasPtr(const HasPtr &p) : ps(new string(*(p.ps))), i(p.i) { cout << "Copy Ctor" << endl; }
     HasPtr &operator=(const HasPtr &p) { 
+        auto temp = new string(*p.ps);
         delete ps;
-        ps = new string(*p.ps);
+        ps = temp;
         i = p.i;
         cout << "copy assignment" << endl;
         return *this;
