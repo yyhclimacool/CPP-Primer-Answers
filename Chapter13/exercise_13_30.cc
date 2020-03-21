@@ -7,7 +7,7 @@ class HasPtr {
     friend void swap(HasPtr &, HasPtr &);
 public:
     HasPtr(const string &s = string()) : ps(new string(s)), i(0) {}
-    HasPtr(const HasPtr &p) : ps(new string(*(p.ps))), i(p.i) { cout << "Copy Ctor" << endl; }
+    HasPtr(const HasPtr &p) : ps(new string(*p.ps)), i(p.i) { cout << "Copy Ctor" << endl; }
     HasPtr &operator=(const HasPtr &p) { 
         auto newp = new string(*p.ps);
         delete ps;
@@ -27,7 +27,7 @@ void swap(HasPtr &lhs, HasPtr &rhs) {
     using std::swap;
     swap(lhs.ps, rhs.ps);
     swap(lhs.i, rhs.i);
-    cout << "hasptr.swap" << endl;
+    cout << "calling " << __func__ << endl;
 }
 
 int main() {

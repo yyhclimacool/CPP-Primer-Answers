@@ -4,94 +4,129 @@
 
 using namespace std;
 
-class Folder;
+class Message;
+
+class Folder {
+public:
+    Folder(const std::string &s = "Main Folder")
+        : folder_name_(s) {}
+    Folder(const Folder &f);
+    Folder &operator=(const Folder &f);
+    ~Folder();
+    void addMsg(Message *);
+    void remMsg(Message *);
+private:
+    std::string folder_name_;
+    std::set<Message *> messages_;
+};
 
 class Message {
     friend class Folder;
-    friend ostream &operator<<(ostream &, const Message &);
+    friend void swap(Message &, Message &);
 public:
-    Message(const string &str = "") : contents(str) {}
-    Message(const Message &m) : contents(m.contents), folders(m.folders) {
-        add_to_folders(m);
+    Message(const std::string &s = "")
+        : contents_(s) {}
+    Message(const Message &rhs)
+        : contents_(rhs.contents_),
+          folders_(rhs.folders_){
+        add_to_folders(rhs);
     }
-    Message &operator=(const Message &m) {
+    Message &operator=(const Message &rhs) {
         remove_from_folders();
-        contents = m.contents;
-        folders = m.folders;
-        add_to_folders(m);
+        contents_ = rhs.contents_;
+        folders_ = rhs.folders_;
+        add_to_folders(rhs);
         return *this;
     }
     ~Message() {
         remove_from_folders();
     }
 
-    void save(Folder &);
-    void remove(Folder &);
-private:
-    string contents;
-    set<Folder *> folders;
-
-    void add_to_folders(const Message &m);
-    void remove_from_folders();
-};
-
-ostream &operator<<(ostream &os, const Message &m) {
-    os << "Content : <" << m.contents << "> in " << m.folders.size() << " Folders";
-    return os;
-}
-
-class Folder {
-public:
-    Folder() = default;
-    void addMsg(Message *m) {
-        messages.insert(m);
+    std::string &contents() {
+        return contents_;
     }
 
-    void remMsg(Message *m) {
-        messages.erase(m);
+    const std::string &contents() const {
+        return contents_;
     }
-private:
-    set<Message *> messages;
-};
 
-void Message::save(Folder &f) {
-    folders.insert(&f);
-    f.addMsg(this);
-}
-
-void Message::remove(Folder &f) {
-    folders.erase(&f);
-    f.remMsg(this);
-}
-
-void Message::add_to_folders(const Message &m) {
-    for (auto & f : m.folders)
+    void save(Folder *f) {
+        folders_.insert(f);
         f->addMsg(this);
+    }
+
+    void remove(Folder *f) {
+        folders_.erase(f);
+        f->remMsg(this);
+    }
+private:
+    void add_to_folders(const Message &m) {
+        for (auto &f : m.folders_)
+            f->addMsg(this); // NOT f->addMsg(&m);
+    }
+
+    void remove_from_folders() {
+        for (auto &f : folders_)
+            f->remMsg(this);
+    }
+private:
+    std::string contents_;
+    std::set<Folder *> folders_;
+};
+
+void swap(Message &lhs, Message &rhs) {
+    for (auto &f : lhs.folders_)
+        f->remMsg(&lhs);
+    for (auto &f : rhs.folders_)
+        f->remMsg(&rhs);
+    using std::swap;
+    swap(lhs.contents_, rhs.contents_);
+    swap(lhs.folders_, rhs.folders_);
+    for (auto &f : lhs.folders_)
+        f->addMsg(&lhs);
+    for (auto &f : rhs.folders_)
+        f->addMsg(&rhs);
 }
 
-void Message::remove_from_folders() {
-    for (auto & f : folders)
-        f->remMsg(this);
+void Folder::addMsg(Message *m) {
+    cout << "Folder:" << this << " Add    Message:" << m << " with contents:" << m->contents() << endl;
+    messages_.insert(m);
+}
+void Folder::remMsg(Message *m) {
+    cout << "Folder:" << this << " Remove Message:" << m << " with contents:" << m->contents() << endl;
+    messages_.erase(m);
+}
+
+Folder::Folder(const Folder &f)
+    : folder_name_(f.folder_name_),
+    messages_(f.messages_) {
+    for (auto &m : messages_)
+        m->folders_.insert(this);
+}
+Folder &Folder::operator=(const Folder &f) {
+    for (auto &m : messages_)
+        m->folders_.erase(this);
+    folder_name_ = f.folder_name_;
+    messages_ = f.messages_;
+    for (auto &m : messages_)
+        m->folders_.insert(this);
+    return *this;
+}
+Folder::~Folder() {
+    for (auto &m : messages_)
+        m->folders_.erase(this);
 }
 
 int main() {
-    Folder f1, f2, f3, f4;
-    Message m1{"message_1"};
-    Message m2{"message_2"};
+    Folder inbox, outbox, trash;
+    Message recruiter("Welcome to harvard");
+    Message summer_camp("Welcome to Summer Camp");
+    recruiter.save(&inbox);
+    recruiter.save(&outbox);
+    summer_camp.save(&outbox);
+    summer_camp.save(&trash);
 
-    m1.save(f1);
-    m1.save(f2);
-    m1.save(f4);
+    Message new_forward_msg(recruiter);
 
-    m2.save(f2);
-    m2.save(f4);
-
-    cout << "m1 = {" <<  m1 << "}" << endl;
-    cout << "m2 = {" <<  m2 << "}" << endl;
-    Message m3 = m1;
-    cout << "m3 = {" <<  m3 << "}" << endl;
-    Message m4;
-    cout << "m4 = {" <<  m4 << "}" << endl;
-    m4 = m2;
-    cout << "NOW m4 = {" <<  m4 << "}" << endl;
+    Folder new_temp_folder(outbox);
 }
