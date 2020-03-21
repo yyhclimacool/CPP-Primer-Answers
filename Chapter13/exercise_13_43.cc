@@ -1,12 +1,15 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include <iterator>
+#include <algorithm>
 
 using namespace std;
 
 class StrVec {
 public:
     StrVec() : element(nullptr), first_free(nullptr), cap(nullptr) {}
+    StrVec(const std::initializer_list<string> &il);
     StrVec(const StrVec &);
     StrVec &operator=(const StrVec &);
     ~StrVec();
@@ -47,8 +50,9 @@ pair<string *, string *> StrVec::alloc_n_copy(const string *b, const string *e) 
 void StrVec::free() {
     if (element) {
         cout << "Calling " << __func__ << endl;
-        for (auto q = first_free; q != element; )
-            alloc.destroy(--q);
+        //for (auto q = first_free; q != element; )
+        //    alloc.destroy(--q);
+        std::for_each(element, first_free, [](string p) { alloc.destroy(&p); });
         alloc.deallocate(element, cap - element);
         element = first_free = cap = nullptr;
     }
@@ -66,6 +70,13 @@ void StrVec::reallocate() {
     element = newdata;
     first_free = data;
     cap = element + newsize;
+}
+
+StrVec::StrVec(const std::initializer_list<string> &il) {
+    cout << "Calling --- " << __func__ << endl;
+    auto newdata = alloc_n_copy(std::begin(il), std::end(il));
+    element = newdata.first;
+    first_free = cap = newdata.second;
 }
 
 StrVec::StrVec(const StrVec &v) {
@@ -135,4 +146,8 @@ int main() {
     StrVec svec3;
     svec3 = svec2;
     svec3.resize(12);
+
+    StrVec svec4{"fine", "by", "me"};
+    std::copy(svec4.begin(), svec4.end(), ostream_iterator<string>(cout, "|"));
+    cout << endl;
 }
