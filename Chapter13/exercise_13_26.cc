@@ -23,7 +23,7 @@ public:
 
     StrBlob &operator=(const StrBlob &s) {
         auto new_data_ = make_shared<vector<string>>(s.data_->begin(), s.data_->end());
-        data_ = new_data_;
+        data_ = new_data_; // 即使是自身赋值给自身，也能正确释放资源
         return *this;
     }
 
