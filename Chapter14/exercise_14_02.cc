@@ -40,14 +40,10 @@ ostream &operator<<(ostream &os, const Sales_data &rhs) {
 }
 
 Sales_data operator+(const Sales_data &lhs, const Sales_data &rhs) {
-    Sales_data temp;
-    if (lhs.bookNo != rhs.bookNo)
-        return temp;
-    temp.units_sold = lhs.units_sold + rhs.units_sold;
-    temp.revenue = lhs.revenue + rhs.revenue;
-    return temp;
+  Sales_data tmp = lhs;
+  tmp += rhs;
+  return tmp;
 }
 
 int main() {
-
 }
