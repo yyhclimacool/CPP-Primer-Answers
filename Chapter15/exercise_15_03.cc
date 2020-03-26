@@ -1,5 +1,3 @@
-#pragma once
-
 #include <iostream>
 #include <string>
 
@@ -32,3 +30,7 @@ double print_total(std::ostream &os, const Quote &q, size_t n) {
     return ret;
 }
 
+int main() {
+  Quote quote("bookNo1", 2.99);
+  cout << print_total(cout, quote, 10) << endl;
+}
