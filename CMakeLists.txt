@@ -29,6 +29,7 @@ add_subdirectory(Chapter11)
 add_subdirectory(Chapter12)
 add_subdirectory(Chapter13)
 add_subdirectory(Chapter14)
+add_subdirectory(Chapter15)
 add_subdirectory(Chapter16)
 
 install(FILES README.md DESTINATION doc COMPONENT document RENAME "README.md")
