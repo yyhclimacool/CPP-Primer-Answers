@@ -36,7 +36,8 @@ public:
     else
       return (price * (1 - disc_) * max_qty_) + (price * (n - max_qty_));
   }
-  virtual void debug() const override {
+  // 同时声明override和final
+  virtual void debug() const override final {
     cout << "Disc_quote : bookNo = " << isbn() << ", price = " << price 
       << ", max_qty_ = " << max_qty_ << ", disc_ = " << disc_ << endl;
   }
