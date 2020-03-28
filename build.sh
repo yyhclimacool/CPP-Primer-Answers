@@ -47,6 +47,10 @@ then
   mkdir -p ${BUILD_DIR}
 fi
 
-cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -H${CURRENT_DIR} -B${BUILD_DIR} && \
+cmake \
+  -H${CURRENT_DIR} -B${BUILD_DIR} \
+  -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+  -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
+  -DCMAKE_EXPORT_COMPILE_COMMANDS=TRUE && \
 cmake --build ${BUILD_DIR} -- -j && \
 cmake --build ${BUILD_DIR} --target install
