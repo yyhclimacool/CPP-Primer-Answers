@@ -22,6 +22,10 @@ struct Pub_Derv : public Base {
     }
 };
 
+struct Prot_Derv : protected Base {
+  Prot_Derv(int ival, char ch) : Base(ival, ch) {}
+};
+
 struct Priv_Derv : private Base {
     Priv_Derv(int ival, char ch) : Base(ival, ch) {}
     int f1() const { cout << "Priv_Derv : Base.prot_mem = " << prot_mem << endl; return prot_mem; }
@@ -44,7 +48,15 @@ struct Derived_from_Private : public Priv_Derv {
 int main() {
     Pub_Derv d1(42, 'c');
     Priv_Derv d2(43, 'd');
+    Prot_Derv d3(44, 'e');
 
     Base *p = &d1;
-    // p = &d2; // ERROR
+    // p = &d2; // ‘Base’ is an inaccessible base
+    // p = &d3; // ‘Base’ is an inaccessible base
+
+    Derived_from_Public dd1(45, 'f');
+    Derived_from_Private dd2(46, 'g');
+
+    p = &dd1;
+    // p = &dd2; // ‘Base’ is an inaccessible base
 }
