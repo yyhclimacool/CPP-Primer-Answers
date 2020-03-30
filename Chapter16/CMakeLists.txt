@@ -1,6 +1,6 @@
 aux_source_directory(. chap16_srcs)
 set(target_list)
-foreach(file IN LISTS chap15_srcs)
+foreach(file IN LISTS chap16_srcs)
     string(REPLACE ".cc" "" target_name_temp ${file})
     string(REPLACE "./" "" target_name ${target_name_temp})
     add_executable(${target_name} ${file})

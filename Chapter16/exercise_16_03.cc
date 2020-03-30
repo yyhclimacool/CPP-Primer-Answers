@@ -1,9 +1,19 @@
 #include <iostream>
 #include <vector>
 
-#include "../Chapter07/exercise_7_21.h"
-
 using namespace std;
+
+class Sales_data {
+public:
+  Sales_data(const string &book) : bookno(book) {}
+  string bookno;
+  size_t units_sold = 0;
+  double price = 0.0;
+};
+
+bool operator<(const Sales_data &lhs, const Sales_data &rhs) {
+  return lhs.bookno < rhs.bookno;
+}
 
 template <typename T>
 int compare(const T &lhs, const T &rhs) {
