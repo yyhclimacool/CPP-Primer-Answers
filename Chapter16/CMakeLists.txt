@@ -1,3 +1,12 @@
-add_executable(exercise_16_47 exercise_16_47.cc)
-add_executable(exercise_16_51 exercise_16_51.cc)
-add_executable(exercise_16_53 exercise_16_53.cc)
+aux_source_directory(. chap16_srcs)
+set(target_list)
+foreach(file IN LISTS chap15_srcs)
+    string(REPLACE ".cc" "" target_name_temp ${file})
+    string(REPLACE "./" "" target_name ${target_name_temp})
+    add_executable(${target_name} ${file})
+    list(APPEND target_list ${target_name})
+endforeach()
+
+install(TARGETS ${target_list}
+    RUNTIME DESTINATION bin/chapter16
+)
