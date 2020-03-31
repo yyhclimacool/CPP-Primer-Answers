@@ -85,7 +85,16 @@ void Blob<T>::pop_back() {
 }
 
 template<typename T>
+bool operator==(const BlobPtr<T> &, const BlobPtr<T> &);
+
+template<typename T>
+bool operator<(const BlobPtr<T> &, const BlobPtr<T> &);
+
+template<typename T>
 class BlobPtr {
+  friend bool operator==<T>(const BlobPtr<T> &, const BlobPtr<T> &);
+  // 这里要留一个空格，^.^
+  friend bool operator< <T>(const BlobPtr<T> &, const BlobPtr<T> &);
 public:
   BlobPtr() : curr(0) {}
   BlobPtr(Blob<T> &b, typename Blob<T>::size_type i = 0)
@@ -105,6 +114,17 @@ private:
   std::weak_ptr<std::vector<T>> wptr;
   typename Blob<T>::size_type curr;
 };
+
+template<typename T>
+bool operator==(const BlobPtr<T> &lhs, const BlobPtr<T> &rhs) {
+    return lhs.curr == rhs.curr && lhs.wptr.lock() == rhs.wptr.lock();
+}
+
+// 调用者保证lhs和rhs指向相同的底层数据
+template<typename T>
+bool operator<(const BlobPtr<T> &lhs, const BlobPtr<T> &rhs) {
+  return lhs.curr < rhs.curr;
+}
 
 template<typename T>
 std::shared_ptr<std::vector<T>> BlobPtr<T>::check(typename Blob<T>::size_type i, const std::string &msg) const {
@@ -165,7 +185,16 @@ int main() {
 
   // test on BlobPtr
   BlobPtr<int> bptr(ib); // 实例化BlobPtr<int>和构造函数
+  BlobPtr<int> bptr2(ib);
   cout << *bptr << endl; // 实例化解引用运算符
   bptr++; // 实例化后置递增
   cout << *bptr << endl;
+  ++bptr2; // 实例化前置递增
+  if (bptr == bptr2) {
+    cout << "bptr == bptr2" << endl;
+  }
+  bptr2++;
+  if (bptr < bptr2) {
+    cout << "bptr < bptr2" << endl;
+  }
 }
