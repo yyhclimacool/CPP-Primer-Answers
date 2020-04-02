@@ -4,6 +4,21 @@
 
 using namespace std;
 
+class Value {
+  friend Value operator+(const Value &, int );
+public:
+  Value() = default;
+  Value(const Value &rhs) { 
+    cout << "Calling Copy Constructor..." << endl;
+  }
+  ~Value() = default;
+};
+
+Value operator+(const Value &v, int i) {
+  (void)i;
+  return v;
+}
+
 // It's legal
 template <typename It>
 auto fcn3(It beg, It end) -> decltype(*beg + 0)
@@ -12,7 +27,6 @@ auto fcn3(It beg, It end) -> decltype(*beg + 0)
 }
 
 int main() {
-  vector<int> ivec{1,2,3,4,5,6,7};
-  int ival = fcn3(ivec.begin(), ivec.end());
-  cout << ival << endl;
+  std::vector<Value> vals(10);
+  auto val = fcn3(vals.begin(), vals.end());
 }
