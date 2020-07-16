@@ -1,7 +1,11 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <algorithm>
+#include <functional>
 
 using namespace std;
+using std::placeholders::_1;
 
 class Screen {
 public:
@@ -72,4 +76,14 @@ int main() {
 
   sc.move(Screen::HOME);
   sc.move(Screen::LEFT);
+
+  // function, mem_fn, bind
+  vector<string> svec {"a", "b", "c", "d", "e", "", "f", "g"};
+  function<bool (const string &)> fcn = &string::empty;
+  auto it = find_if(svec.begin(), svec.end(), fcn);
+  if (it != svec.end()) cout << "Found empty string, test passed." << endl;
+  it = find_if(svec.begin(), svec.end(), mem_fn(&string::empty));
+  if (it != svec.end()) cout << "Found empty string, test passed." << endl;
+  it = find_if(svec.begin(), svec.end(), bind(&string::empty, _1));
+  if (it != svec.end()) cout << "Found empty string, test passed." << endl;
 }
