@@ -3,8 +3,10 @@
 using namespace std;
 
 TEST(Chapter09, exercise_9_13) {
-    list<int> ilst = {1,2,3,43,54,56,34,65,8};
-    vector<double> dvec(ilst.begin(), ilst.end());
-    vector<int> ivec = {1,2,3,4,5,6,87,9,0,0,432};
-    vector<double> dvec2{ivec.begin(), ivec.end()};
+  list<int> ilst = {1, 2, 3, 43, 54, 56, 34, 65, 8};
+  vector<double> dvec(ilst.begin(), ilst.end());
+  ASSERT_EQ(dvec.size(), ilst.size());
+  vector<int> ivec = {1, 2, 3, 4, 5, 6, 87, 9, 0, 0, 432};
+  vector<double> dvec2{ivec.begin(), ivec.end()};
+  ASSERT_EQ(dvec2.size(), ivec.size());
 }
